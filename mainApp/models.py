@@ -25,6 +25,8 @@ class Doctor(models.Model):
     email = models.EmailField(null=True)
     department = models.CharField(max_length = 20)
     officeNumber = models.CharField(validators=[RegexValidator(r'^\d{1,5}', message="Office number should ")])
+    def __str__(self):
+        return self.name
 
 class Appointment(models.Model):
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_booked')
