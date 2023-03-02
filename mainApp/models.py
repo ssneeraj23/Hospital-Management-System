@@ -33,6 +33,7 @@ class Appointment(models.Model):
     doctorID = models.ForeignKey(Doctor, related_name='doctor_assigned', on_delete=models.CASCADE)
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
+    prescription = models.TextField()
     priority = models.IntegerField()
     appReport = models.FileField()
     reportGenerationTime = models.DateTimeField()
