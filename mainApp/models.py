@@ -34,6 +34,7 @@ class Appointment(models.Model):
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
     priority = models.IntegerField()
+    prescription = models.TextField()
     appReport = models.FileField()
     reportGenerationTime = models.DateTimeField()
 
