@@ -39,8 +39,11 @@ class Appointment(models.Model):
     reportGenerationTime = models.DateTimeField()
 
 class Admission(models.Model):
+    def _validate_room(value):
+        if value.type != 'w':
+            raise ValidationError('This room is not suitable for operations.')
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_admitted')
-    roomID = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='patient_admitted')
+    roomID = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='patient_admitted', validators=[_validate_room])
     startTime = models.DateTimeField()
     endTime = models.DateTimeField(null=True, blank=True)
 
