@@ -24,7 +24,7 @@ class Doctor(models.Model):
     phoneNumber = models.CharField(max_length=20, null=True)
     email = models.EmailField(null=True)
     department = models.CharField(max_length = 20)
-    officeNumber = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,5}', message="Office number should ")])
+    officeNumber = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,5}', message="Office number should be between 1 and 5 digits")])
     def __str__(self):
         return self.name
 
@@ -62,6 +62,3 @@ class Operation(models.Model):
     endTime = models.DateTimeField()
     operationReport = models.FileField()
     reportGenerationTime = models.DateTimeField()
-
-
-    
