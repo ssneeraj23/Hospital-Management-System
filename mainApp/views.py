@@ -7,9 +7,7 @@ from django.template import loader
 
 # from .forms import *
 from .models import *
-import datetime
-
-today = datetime.date.today()
+from datetime import datetime
 
 # Create your views here.
 
@@ -21,7 +19,12 @@ def doctor(request):
     except:
         return HttpResponse('Error 404')
     else:
-        return render(request, 'doctor.html', {'doctor': doc}) # pass the doctor as context to the template
+        current_datetime = datetime.now()
+        # app_list = get_list_or_404(Appointment, doctorID=doc.pk) & get_list_or_404(Appointment, endTime__gt=current_datetime) # TODO: add patient names
+        app_list = Appointment.objects.filter(doctorID=doc.pk, endTime__gt=current_datetime)
+        # app_list = []
+        context = {"doctor": doc, "appointments": app_list}
+        return render(request, 'doctor.html', context) # pass the doctor as context to the template
 
 def pl(request):
     template = loader.get_template('patientList.html')

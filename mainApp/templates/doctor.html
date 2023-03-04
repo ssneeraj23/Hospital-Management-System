@@ -74,28 +74,32 @@
       <h1 class="text-center mt-5 navbar-text">APPOINTMENTS</h1>
       <p class="text-center lead">Upcoming appointment list</p>
     </div>
-    <div class="container">
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
+    {% if appointments %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+          <div class="container">
           <thead class="thead-light">
             <tr>
-              <th>Column 1</th>
-              <th>Column 2</th>
-              <th>Column 3</th>
+              <th>Patient ID</th>
+              <th>Start Time</th>
+              <th>End Time</th>
             </tr>
           </thead>
           <tbody>
-            {% for row in tuples %}
             <tr>
-              <td>{{ row.0 }}</td>
-              <td>{{ row.1 }}</td>
-              <td>{{ row.2 }}</td>
+              {% for appt in appointments %}
+              <td>{{ appt.patientID }}</td>
+              <td>{{ appt.startTime }}</td>
+              <td>{{ appt.endTime }}</td>
+              {% endfor %}
             </tr>
-            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
+    {% else %}
+    No appointments to show.
+    {% endif %}
     {% endif %}
 
     <!-- Optional JavaScript; choose one of the two! -->

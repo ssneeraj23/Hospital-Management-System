@@ -30,15 +30,15 @@ class Doctor(models.Model):
     def __str__(self):
         return str(self.pk) + " " + self.name # necessary typecast
 
-class FrontDeskOperator(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE)
-    def __str__(self):
-        return str(self.pk) + " " + self.name
+# class FrontDeskOperator(models.Model):
+#     username = models.OneToOneField(User, on_delete=models.CASCADE)
+#     def __str__(self):
+#         return str(self.pk) + " " + self.name
 
-class DataEntryOperator(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE)
-    def __str__(self):
-        return str(self.pk) + " " + self.name
+# class DataEntryOperator(models.Model):
+#     username = models.OneToOneField(User, on_delete=models.CASCADE)
+#     def __str__(self):
+#        return str(self.pk) + " " + self.name
 
 class Appointment(models.Model):
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_booked')
@@ -55,7 +55,7 @@ class Appointment(models.Model):
     appReport = models.FileField(null=True, blank=True)
     reportGenerationTime = models.DateTimeField(null=True, blank=True)
     def __str__(self):
-        return str(self.pk) + " - " + str(self.patientID) + " - " + self.startTime
+        return str(self.pk) + " - " + str(self.patientID) + " - " + self.startTime.strftime("%d/%m/%Y, %H:%M:%S")
 
 class Admission(models.Model):
     def _validate_room(value):
