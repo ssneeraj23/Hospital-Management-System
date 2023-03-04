@@ -89,7 +89,7 @@ class PrescriptionForm(forms.Form):
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         
     
-# front end operator
+# front desk operator
 class ScheduleTestForm(forms.ModelForm):
     class Meta:
         model = Test

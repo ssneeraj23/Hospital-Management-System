@@ -13,4 +13,5 @@ urlpatterns = [
     path('ri',views.ri, name = 'ri'),
     path('logout', views.logout_view, name = 'logout'),
     path('password_reset', views.password_reset, name = 'password_reset'), # TODO
+    path('access-denied', views.access_denied, name='access-denied') # TODO
 ]

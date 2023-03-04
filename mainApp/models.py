@@ -23,7 +23,7 @@ class Patient(models.Model):
     phoneNumber = models.CharField(max_length=20, null=True)
     email = models.EmailField(null=True)
     def __str__(self):
-        return str(self.pk) + " " + self.name # necessary typecast
+        return str(self.pk) + " - " + self.name # necessary typecast
 
 class Room(models.Model):
     roomType = [('w', "Ward"), ('o', 'Operation Theatre')]
@@ -31,7 +31,7 @@ class Room(models.Model):
     available = models.BooleanField(default=False)
 
 class Doctor(models.Model):
-    # username = models.OneToOneField(User, on_delete=models.CASCADE) # TODO: rename to something less ambiguous
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default="Vijay")
     address = models.CharField(max_length=100, null=True)
     phoneNumber = models.CharField(max_length=20, null=True)

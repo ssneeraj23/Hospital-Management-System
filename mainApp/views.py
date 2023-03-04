@@ -5,26 +5,63 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 
-# from .forms import *
+from .forms import *
 from .models import *
 from datetime import datetime
 
 # Create your views here.
 
 @login_required
-def doctor(request):
+def docDashView(request):
+    if request.user.profile.role != 'd':
+        return redirect('access-denied')
     # request.user contains the user object 
-    try:
-        doc = get_object_or_404(Doctor, username__username=request.user.get_username()) # returns the doctor object with the given username
-    except:
-        return HttpResponse('Error 404')
     else:
         current_datetime = datetime.now()
-        # app_list = get_list_or_404(Appointment, doctorID=doc.pk) & get_list_or_404(Appointment, endTime__gt=current_datetime) # TODO: add patient names
-        app_list = Appointment.objects.filter(doctorID=doc.pk, endTime__gt=current_datetime)
-        # app_list = []
-        context = {"doctor": doc, "appointments": app_list}
+        doctorObj = request.user.doctor
+        app_list = Appointment.objects.filter(doctorID=doctorObj, startTime__gt=current_datetime)
+        context = {"doctor": doctorObj, "appointments": app_list}
         return render(request, 'doctor.html', context) # pass the doctor as context to the template
+
+@login_required
+def frontDeskOpDashView(request):
+    if request.user.profile.role != 'fdo':
+        return redirect('access-denied')
+    else:
+        return render(request, 'frontDesk.html')
+
+@login_required
+def dataEntryOpDashView(request):
+    if request.user.profile.role != 'deo':
+        return redirect('access-denied')
+    elif request.method == 'GET':
+        appReportForm = FileAppointmentReportForm()
+        testReportForm = UploadTestReportForm()
+        opReportForm = UploadOperationReportForm()
+    elif request.method == 'POST':
+        if 'test_submit' in request.POST:
+            pass
+        elif 'operation_submit' in request.POST:
+            pass
+        elif 'appointment_submit' in request.POST:
+            pass
+    return render(request, 'dataEntry.html')
+
+@login_required
+def patientRegView(request):
+    # only front desk operators can register new patients
+    if request.user.profile.role != 'fdo':
+        return redirect('access-denied')
+    elif request.method == 'GET':
+        patientRegForm = PatientRegForm()
+    elif request.method == 'POST':
+        patientRegForm = PatientRegForm(request.POST)
+        if patientRegForm.is_valid():
+            patientRegForm.save()
+    return render(request, 'patientReg.html', {'form' : patientRegForm})
+
+@login_required
+# def 
 
 def pl(request):
     template = loader.get_template('patientList.html')
