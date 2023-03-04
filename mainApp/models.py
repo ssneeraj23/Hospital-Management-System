@@ -3,6 +3,17 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, AbstractUser
 
+class Profile(models.Model):
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    ROLES = [
+        ('d', 'Doctor'),
+        ('fdo', 'Front Desk Operator'),
+        ('deo', 'Data Entry Operator'),
+    ]
+    role = models.CharField(max_length=3, choices=ROLES, default='d')
+    def __str__(self):
+        return str(self.user.username)
+
 # Create your models here.
 class Patient(models.Model):
     name = models.CharField(max_length=100, default="John Doe")
@@ -20,7 +31,7 @@ class Room(models.Model):
     available = models.BooleanField(default=False)
 
 class Doctor(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE) # TODO: rename to something less ambiguous
+    # username = models.OneToOneField(User, on_delete=models.CASCADE) # TODO: rename to something less ambiguous
     name = models.CharField(max_length=100, default="Vijay")
     address = models.CharField(max_length=100, null=True)
     phoneNumber = models.CharField(max_length=20, null=True)

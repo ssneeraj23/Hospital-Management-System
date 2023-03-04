@@ -9,7 +9,7 @@ class LoginForm(AuthenticationForm): # borrowed from Vishal's code
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'Stakeholder ID (e.g. 20CS10031)'
+        self.fields['username'].widget.attrs['placeholder'] = 'Stakeholder ID'
 
         self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['placeholder'] = 'Password'
@@ -44,7 +44,7 @@ class admissionForm(forms.ModelForm):
         self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
         self.fields['endTime'].widget.attrs['placeholder'] = 'End Time'
 
-class dischargeForm(forms.ModelForm):
+class dischargeForm(forms.Form):
     patientID = forms.ModelChoiceField(queryset=Patient.objects.all())
 
     def __init__(self, *args, **kwargs):
