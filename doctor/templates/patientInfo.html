@@ -15,6 +15,10 @@
         h1 {
             color: teal;
         }
+
+        h2 {
+            color: aquamarine
+        }
     </style>
 </head>
 
@@ -42,11 +46,65 @@
                 <p><strong>Name:</strong> {{ patient.name }}</p>
                 <p><strong>Patient ID:</strong> {{ patient.id }}</p>
             </div>
-            <div class="col-md-6 d-flex flex-column">
-                <p><strong>Appointment Result:</strong> {{ patient.appointment_result }}</p>
-                <p><strong>Treatment Result:</strong> {{ patient.treatment_result }}</p>
-                <p><strong>Test Result:</strong> {{ patient.test_result }}</p>
-            </div>
+        </div>
+        <h2 class="text-center mt-5 navbar-text">PRESCRIPTIONS</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Start Date</th>
+                        <th>Prescription</th>
+                        <th>Appointment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in tuples %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h2 class="text-center mt-5 navbar-text">TESTS</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Test Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in tuples %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h2 class="text-center mt-5 navbar-text">OPERATIONS</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Operation Report</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in tuples %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
