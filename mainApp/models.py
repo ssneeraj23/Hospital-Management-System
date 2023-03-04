@@ -20,7 +20,7 @@ class Room(models.Model):
     available = models.BooleanField(default=False)
 
 class Doctor(models.Model):
-    doctor = models.OneToOneField(User, on_delete=models.CASCADE) # TODO: rename to something less ambiguous
+    username = models.OneToOneField(User, on_delete=models.CASCADE) # TODO: rename to something less ambiguous
     name = models.CharField(max_length=100, default="Vijay")
     address = models.CharField(max_length=100, null=True)
     phoneNumber = models.CharField(max_length=20, null=True)
@@ -29,6 +29,16 @@ class Doctor(models.Model):
     officeNumber = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,5}', message="Office number should be between 1 and 5 digits")])
     def __str__(self):
         return str(self.pk) + " " + self.name # necessary typecast
+
+class FrontDeskOperator(models.Model):
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.pk) + " " + self.name
+
+class DataEntryOperator(models.Model):
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.pk) + " " + self.name
 
 class Appointment(models.Model):
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_booked')

@@ -6,10 +6,10 @@ from .forms import *
 
 urlpatterns = [
 
-    path('', LoginView.as_view(template_name='login2.html', next_page='doctor', authentication_form=LoginForm), name='login'),
+    path('', LoginView.as_view(template_name='login.html', next_page='doctor', authentication_form=LoginForm), name='login'),
     path('doctor',views.doctor, name = 'doctor'),
-    path('pl',views.pl, name = 'pl'),
-    path('pi',views.pi, name = 'pi'),
+    path('patientList',views.pl, name = 'patientList'),
+    path('patientInfo',views.pi, name = 'patientInfo'),
     path('ri',views.ri, name = 'ri'),
     path('logout', views.logout_view, name = 'logout'),
     path('password_reset', views.password_reset, name = 'password_reset'), # TODO

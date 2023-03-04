@@ -12,12 +12,12 @@ import datetime
 today = datetime.date.today()
 
 # Create your views here.
-# @login_required
 
+@login_required
 def doctor(request):
     # request.user contains the user object 
     try:
-        doc = get_object_or_404(Doctor, doctor__username=request.user.get_username()) # returns the doctor object with the given username
+        doc = get_object_or_404(Doctor, username__username=request.user.get_username()) # returns the doctor object with the given username
     except:
         return HttpResponse('Error 404')
     else:

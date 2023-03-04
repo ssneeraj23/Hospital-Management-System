@@ -48,7 +48,8 @@
                     <img src="/static/pi.png" class="card-img-top" alt="London" height="250px">
                     <div class="card-body">
                         <h5 class="card-title">ENTER PATIENT RESULT</h5>
-                        <form action = "resultInsert" method = "post" color = "green">Patient ID 
+                        <form action = "{% url 'patientInfo' %}" method = "post" color = "green">Patient ID 
+                        {% csrf_token %}
                         <input type="text" id = "pid" name="pid" ><br>
                         <br>
                         <input class="btn btn-primary"  type = "submit" value = "Submit">
@@ -63,7 +64,7 @@
                     <div class="card-body">
                         <h5 class="card-title">PATIENT LIST</h5>
                         <p class="card-text">For the list of Patients click the link</p>
-                        <a href="/patientList" class="btn btn-primary">Link</a>
+                        <a href="{% url 'patientList' %}" class="btn btn-primary">Link</a>
                     </div>
                 </div>
             </div>

@@ -103,4 +103,4 @@ class operationScheduleForm(forms.ModelForm):
             self.fields[field_name].widget.attrs['class'] = 'form-control'
 
 class operationReportForm(forms.Form):
-    operationID = forms.ModelChoiceField(Operation.objects.filter(op))
+    operationID = forms.ModelChoiceField(Operation.objects.filter())
