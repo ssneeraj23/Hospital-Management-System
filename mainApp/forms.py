@@ -82,6 +82,8 @@ class prescriptionForm(forms.Form):
         super(prescriptionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['appointmentID'].widget.attrs['placeholder'] = 'Appointment ID'
+        self.fields['prescription'].widget.attrs['placeholder'] = 'Prescription'
         
     
 # front end operator
@@ -105,6 +107,8 @@ class testReportFillForm(forms.Form):
         super(testReportFillForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['testID'].widget.attrs['placeholder'] = 'Test ID'
+        self.fields['testReport'].widget.attrs['placeholder'] = 'Test Report'
 
 class operationScheduleForm(forms.ModelForm):
     class Meta:
@@ -122,4 +126,11 @@ class operationScheduleForm(forms.ModelForm):
         self.fields['opTheatre'].widget.attrs['placeholder'] = 'Operation Theatre'
 
 class operationReportForm(forms.Form):
-    operationID = forms.ModelChoiceField(Operation.objects.filter(op))
+    operationID = forms.ModelChoiceField(Operation.objects.filter(operationReport__isnull=True), required=False)
+    operationReport = forms.FileField(allow_empty_file=True, required=True)
+    def __init__(self, *args, **kwargs):
+        super(operationReportForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['operationID'].widget.attrs['placeholder'] = 'Operation ID'
+        self.fields['operationReport'].widget.attrs['placeholder'] = 'Operation Report'
