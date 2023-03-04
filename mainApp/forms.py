@@ -15,6 +15,13 @@ class patientRegForm(forms.ModelForm):
         super(patientRegForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['placeholder'] = 'Name'
+        self.fields['dob'].widget.attrs['placeholder'] = 'DOB'
+        self.fields['gender'].widget.attrs['placeholder'] = 'Gender'
+        self.fields['address'].widget.attrs['placeholder'] = 'Address'
+        self.fields['phoneNumber'].widget.attrs['placeholder'] = 'Phone Number'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email-ID'
+
 
 
 class admissionForm(forms.ModelForm):
@@ -26,7 +33,10 @@ class admissionForm(forms.ModelForm):
         super(admissionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-
+        self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
+        self.fields['roomID'].widget.attrs['placeholder'] = 'roomID'
+        self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
+        self.fields['endTime'].widget.attrs['placeholder'] = 'End Time'
 
 class dischargeForm(forms.ModelForm):
     patientID = forms.ModelChoiceField(queryset=Patient.objects.all())
@@ -35,6 +45,7 @@ class dischargeForm(forms.ModelForm):
         super(dischargeForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
 
 
 class makeAppointment(forms.ModelForm):
@@ -46,6 +57,10 @@ class makeAppointment(forms.ModelForm):
         super(makeAppointment, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
+        self.fields['doctorID'].widget.attrs['placeholder'] = 'Doctor ID'
+        self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
+        self.fields['priority'].widget.attrs['placeholder'] = 'Priority'
 
 # handled by data entry operator
 class appointmentReportForm(forms.Form):
@@ -55,6 +70,9 @@ class appointmentReportForm(forms.Form):
         super(appointmentReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['appointmentID'].widget.attrs['placeholder'] = 'Appointment ID'
+        self.fields['appReport'].widget.attrs['placeholder'] = 'Appointment Report'
+        
 
 # doctor's form
 class prescriptionForm(forms.Form):
@@ -64,6 +82,7 @@ class prescriptionForm(forms.Form):
         super(prescriptionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        
     
 # front end operator
 class testScheduleForm(forms.ModelForm):
@@ -74,6 +93,9 @@ class testScheduleForm(forms.ModelForm):
         super(testScheduleForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
+        self.fields['testName'].widget.attrs['placeholder'] = 'Test'
+        self.fields['scheduledTime'].widget.attrs['placeholder'] = 'Scheduled Time'
 
 # data entry operator
 class testReportFillForm(forms.Form):
@@ -93,6 +115,11 @@ class operationScheduleForm(forms.ModelForm):
         super(operationScheduleForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['opName'].widget.attrs['placeholder'] = 'Operation Name'
+        self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
+        self.fields['doctorID'].widget.attrs['placeholder'] = 'Doctor ID'
+        self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
+        self.fields['opTheatre'].widget.attrs['placeholder'] = 'Operation Theatre'
 
 class operationReportForm(forms.Form):
     operationID = forms.ModelChoiceField(Operation.objects.filter(op))
