@@ -1,26 +1,7 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Patient Registration{% endblock %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel=”stylesheet” href=”https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css” >
-    <title>PATIENT_LIST</title>
-    <style>
-        h1 {
-            color: teal;
-        }
-    </style>
-</head>
-
-<body>
+{% block content %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <div class="container">
             <h2 class="navbar-text text-white mx-auto">HMS</h2>
@@ -110,8 +91,4 @@
             </div>
         </div>
     </div>
-
-
-</body>
-
-</html>
+{% endblock %}
