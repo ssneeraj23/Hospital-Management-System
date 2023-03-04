@@ -25,3 +25,8 @@ def pi(request):
 def ri(request):
     template = loader.get_template('resultInsert.html')
     return HttpResponse(template.render())
+def pr(request):
+    f = patientRegForm()
+    context = {}
+    context["form"]=f 
+    return render(request,"patientReg.html",context)
