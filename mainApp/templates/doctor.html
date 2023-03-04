@@ -16,27 +16,29 @@
       }
     </style>
   </head>
+
+  {% if error_message %}
+  No such doctor exists.
+  {% else %}
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <div class="container">
-          <h2 class="navbar-text text-white mx-auto">HMS</h2>
+          <h2 class="navbar-text text-white mx-auto">Hospital Management System</h2>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a href="/" class="btn btn-success">Logout</a>
+                <a href={% url 'logout' %} class="btn btn-success">Logout</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
       <br>
-      <h2 class="navbar-text">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspWelcome Back, Dr.</h2>
+      <h2 class="navbar-text">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspWelcome Back, Dr. {{doctor.name}}</h2>
       <br>
-      
-      
       
           
     <div class="container">
@@ -93,6 +95,7 @@
         </table>
       </div>
     </div>
+    {% endif %}
 
     <!-- Optional JavaScript; choose one of the two! -->
 
