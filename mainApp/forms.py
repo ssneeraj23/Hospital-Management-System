@@ -57,8 +57,8 @@ class makeAppointment(forms.ModelForm):
 
 # handled by data entry operator
 class appointmentReportForm(forms.Form):
-    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(appReport__isnull=True))
-    appReport = forms.FileField(allow_empty_file=False)
+    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
+    appReport = forms.FileField(allow_empty_file=False, required=True)
     def __init__(self, *args, **kwargs):
         super(appointmentReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -66,14 +66,14 @@ class appointmentReportForm(forms.Form):
 
 # doctor's form
 class prescriptionForm(forms.Form):
-    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(prescription__isnull=True))
-    prescription = forms.Textarea
+    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(prescription__isnull=True), required=True)
+    prescription = forms.Textarea()
     def __init__(self, *args, **kwargs):
         super(prescriptionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
     
-
+# front end operator
 class testScheduleForm(forms.ModelForm):
     class Meta:
         model = Test
@@ -82,3 +82,25 @@ class testScheduleForm(forms.ModelForm):
         super(testScheduleForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+
+# data entry operator
+class testReportFillForm(forms.Form):
+    testID = forms.ModelChoiceField(Test.objects.filter(testReport__isnull=True), required=True)
+    testReport = forms.FileField(allow_empty_file=False)
+    def __init__(self, *args, **kwargs):
+        super(testReportFillForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+
+class operationScheduleForm(forms.ModelForm):
+    class Meta:
+        model = Operation
+        fields = ['opName', 'patientID', 'doctorID', 'opTheatre', 'startTime']
+    
+    def __init__(self, *args, **kwargs):
+        super(operationScheduleForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+
+class operationReportForm(forms.Form):
+    operationID = forms.ModelChoiceField(Operation.objects.filter(op))

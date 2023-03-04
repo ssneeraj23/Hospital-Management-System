@@ -60,8 +60,8 @@ class Test(models.Model):
     testName = models.CharField(max_length=50)
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_tested')
     scheduledTime = models.DateTimeField()
-    testReport = models.FileField()
-    reportGenerationTime = models.DateTimeField()
+    testReport = models.FileField(null=True, blank=True)
+    reportGenerationTime = models.DateTimeField(null=True, blank=True)
 
 class Operation(models.Model):
     def _validate_room(value):
@@ -72,6 +72,6 @@ class Operation(models.Model):
     doctorID = models.ManyToManyField(Doctor, related_name='doctors')
     opTheatre = models.ForeignKey(Room, related_name='where', validators=[_validate_room], on_delete=models.CASCADE)
     startTime = models.DateTimeField()
-    endTime = models.DateTimeField()
-    operationReport = models.FileField()
-    reportGenerationTime = models.DateTimeField()
+    endTime = models.DateTimeField(null=True, blank=True)
+    operationReport = models.FileField(null=True, blank=True)
+    reportGenerationTime = models.DateTimeField(null=True, blank=True)
