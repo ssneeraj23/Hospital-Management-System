@@ -2,93 +2,99 @@
 {% block title %}Patient Registration{% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <div class="container">
-            <h2 class="navbar-text text-white mx-auto">HMS</h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/" class="btn btn-success">GoBack</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <br>
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center">REGISTRATION FORM</h1>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <form method="post" action="/doctor/">
-                    {% csrf_token %}
-                    <div class="card bg-secondary text-white mb-3">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <div class="card bg-success">
-                                    <div class="card-body">
-                                       
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user fa-fw" style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.name}}
-                                          </div>
-                                        <br>
-                                          <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class=" fas fa-calendar-alt fa-fw" style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.dob}}
-                                          </div>
-                                          <br>
-                                          <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fa fa-genderless fa-fw" style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.gender}}
-                                          </div>
-                                          <br>
-                                          <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-address-card fa-fw" style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.address}}
-                                          </div>
-                                          <br>
-                                          <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-phone fa-fw" style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.phoneNumber}}
-                                          </div>
-                                          <br>
-                                          <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fa fa-envelope fa-fw " style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.email}}
-                                          </div>
-                                          
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-sec">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <h2 class="navbar-text text-white mx-auto">HMS</h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/" class="btn btn-success">GoBack</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">REGISTRATION FORM</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" action="/doctor/">
+                {% csrf_token %}
+                <div class="card bg-secondary text-white mb-3">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="card bg-success">
+                                <div class="card-body">
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.name}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class=" fas fa-calendar-alt fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.dob}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-genderless fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.gender}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-address-card fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.address}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-phone fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.phoneNumber}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-envelope fa-fw "
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.email}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-sec">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

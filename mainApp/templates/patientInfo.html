@@ -1,35 +1,130 @@
 {% extends 'base.html' %}
 {% block title %}Patient Information{% endblock %}
-
 {% block content %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <div class="container">
-            <h2 class="navbar-text text-white mx-auto">HMS</h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/pl" class="btn btn-success">GoBack</a>
-                    </li>
-                </ul>
-            </div>
+
+<div class="container-fluid">
+    <span class="card text-center">
+        <div class="card-header">
+            <h2 class="text-center mt-5 navbar-text">Biodata of {{ patient.name }} (ID: {{ patient.pk }})</h1>
+                <!-- <p class="text-center lead">Upcoming list of appointments</p> -->
         </div>
-    </nav>
-    <div class="container">
-        <h1 class="text-center mt-5 navbar-text">PATIENT RESULTS</h1>
-        <div class="row mt-5">
-            <div class="col-md-6 d-flex flex-column">
-                <p><strong>Name:</strong> {{ patient.name }}</p>
-                <p><strong>Patient ID:</strong> {{ patient.id }}</p>
-            </div>
-            <div class="col-md-6 d-flex flex-column">
-                <p><strong>Appointment Result:</strong> {{ patient.appointment_result }}</p>
-                <p><strong>Treatment Result:</strong> {{ patient.treatment_result }}</p>
-                <p><strong>Test Result:</strong> {{ patient.test_result }}</p>
-            </div>
+        <div class="card-body">
+            <p class="card-text">
+                <strong>Name: </strong>{{ patient.name }}<br>
+                <strong>Date of Birth: </strong>{{ patient.dob }}<br>
+                <strong>Gender: </strong>{{ patient.gender }}<br>
+                <strong>Address: </strong>{{ patient.address }}<br>
+                <strong>Phone No.: </strong>{{ patient.phoneNumber }}<br>
+                <strong>Email: </strong>{{ patient.email }}<br>
+            </p>
         </div>
-    </div>
+    </span>
+    <span class="card text-center">
+        <div class="card-header">
+            <h2 class="text-center navbar-text">Medical Information</h1>
+        </div>
+
+        <div class="card-header">
+            <h5 class="text-center">Appointment History</h5>
+        </div>
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that appointments is passed in context -->
+            {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Doctor ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for appt in appointments %}
+                                <td>{{ appt.doctorID }}</td>
+                                <td>{{ appt.startTime }}</td>
+                                <td>{{ appt.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>This patient has no appointments.</strong></p>
+            {% endif %}
+        </div>
+
+
+
+        <div class="card-header">
+            <h5 class="text-center">Test History</h5>
+        </div>
+        <div class="card-body">
+            <!-- NOTE: assumed that tests is passed in context -->
+            {% if tests %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Doctor ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for test in tests %}
+                                <td>{{ test.doctorID }}</td>
+                                <td>{{ test.startTime }}</td>
+                                <td>{{ test.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>This patient has no tests.</strong></p>
+            {% endif %}
+        </div>
+
+
+
+
+        <div class="card-header">
+            <h5 class="text-center">Operation History</h5>
+        </div>
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that operations is passed in context -->
+            {% if operations %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Doctor ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for op in operations %}
+                                <td>{{ op.doctorID }}</td>
+                                <td>{{ op.startTime }}</td>
+                                <td>{{ op.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>This patient has no operations.</strong></p>
+            {% endif %}
+        </div>
+    </span>
+</div>
+
 {% endblock %}

@@ -1,110 +1,74 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel=”stylesheet” href=”https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css”>
-    <title>PATIENT_LIST</title>
-    <style>
-        h1 {
-            color: teal;
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <div class="container">
-            <h2 class="navbar-text text-white mx-auto">HMS</h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/" class="btn btn-success">GoBack</a>
-                    </li>
-                </ul>
-            </div>
+{% extends 'base.html' %}
+{% block title %}Schedule Operation{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">SCHEDULE TREATMENT FORM</h1>
         </div>
-    </nav>
+    </div>
     <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center">SCHEDULE TREATMENT FORM</h1>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <form method="post" action="/doctor/">
-                    {% csrf_token %}
-                    <div class="card bg-secondary text-white mb-3">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <div class="card bg-success">
-                                    <div class="card-body">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" action="/doctor/">
+                {% csrf_token %}
+                <div class="card bg-secondary text-white mb-3">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="card bg-success">
+                                <div class="card-body">
 
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user fa-fw"
-                                                        style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.patientID}}
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user fa-fw"
+                                                    style='font-size:24px'></i></span>
                                         </div>
-                                        <br>
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-file-medical fa-fw"
-                                                        style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.doctorID}}
+                                        {{form.patientID}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-file-medical fa-fw"
+                                                    style='font-size:24px'></i></span>
                                         </div>
-                                        <br>
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fa fa-calendar-alt fa-fw"
-                                                        style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.startTime}}
+                                        {{form.doctorID}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar-alt fa-fw"
+                                                    style='font-size:24px'></i></span>
                                         </div>
-                                        <br>
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-syringe fa-fw"
-                                                        style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.opName}}
+                                        {{form.startTime}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-syringe fa-fw"
+                                                    style='font-size:24px'></i></span>
                                         </div>
-                                        <br>
-                                        <div class="input-group form-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-prescription-bottle-alt fa-fw"
-                                                        style='font-size:24px'></i></span>
-                                            </div>
-                                            {{form.opTheatre}}
+                                        {{form.opName}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i
+                                                    class="fas fa-prescription-bottle-alt fa-fw"
+                                                    style='font-size:24px'></i></span>
                                         </div>
+                                        {{form.opTheatre}}
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-</body>
+</div>
+{% endblock %}

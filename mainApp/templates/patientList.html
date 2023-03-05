@@ -2,58 +2,76 @@
 {% block title %}Patient List{% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <div class="container">
-            <h2 class="navbar-text text-white mx-auto">HMS</h2>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/doctor" class="btn btn-success">GoBack</a>
-                    </li>
-                </ul>
-            </div>
+<div class="container-fluid">
+    <span class="card text-center">
+        <div class="card-header">
+            <h2 class="text-center mt-5 navbar-text">Patients Under Your Care</h1>
         </div>
-    </nav>
 
-    <div class="container">
-        <h1 class="text-center mt-5 navbar-text">PATIENT LIST</h1>
-        <p class="text-center lead">List of the patients treated</p>
-    </div>
-    <div class="container">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Link to info.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in tuples %}
-                    <tr>
-                        <td>{{ row.0 }}</td>
-                        <td>{{ row.1 }}</td>
-                        <td>{{ row.2 }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="card-header">
+            <h5 class="text-center">Appointment History</h5>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that appointments is passed in context -->
+            {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for appt in appointments %}
+                                <td>{{ appt.patientID }}</td>
+                                <td>{{ appt.startTime }}</td>
+                                <td>{{ appt.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>You have had no appointments.</strong></p>
+            {% endif %}
+        </div>
+
+        <div class="card-header">
+            <h5 class="text-center">Operation History</h5>
+        </div>
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that operations is passed in context -->
+            {% if operations %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for op in operations %}
+                                <td>{{ op.patientID }}</td>
+                                <td>{{ op.startTime }}</td>
+                                <td>{{ op.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>You have conducted no operations.</strong></p>
+            {% endif %}
+        </div>
+
+    </span>
+</div>
 {% endblock %}
