@@ -163,3 +163,24 @@ def patientInfoView(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def frontDesk(request):
+    return render(request, 'frontDesk.html', {})
+
+def dataEntry(request):
+    return render(request, 'dataEntry.html', {})
+
+def base(request):
+    return render(request, 'base.html', {})
+
+def patientReg(request):
+    return render(request, 'patientReg.html', {})
+
+def patientInfo(request):
+    return render(request, 'patientInfo.html', {})
+
+def patientList(request):
+    return render(request, 'patientList.html', {})
+
+def doctor(request):
+    return render(request, 'doctor.html', {})
