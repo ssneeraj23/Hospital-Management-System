@@ -12,7 +12,7 @@ class Profile(models.Model):
     ]
     role = models.CharField(max_length=3, choices=ROLES, default='d')
     def __str__(self):
-        return str(self.user.username)
+        return str(self.username)
 
 # Create your models here.
 class Patient(models.Model):

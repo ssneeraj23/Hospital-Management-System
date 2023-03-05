@@ -12,20 +12,30 @@ from datetime import datetime
 
 # Create your views here.
 
+@login_required
+def userRedirect(request):
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role == 'd':
+        return redirect('doctorDash')
+    elif userProf.role == 'fdo':
+        return redirect('frontDesk')
+    elif userProf.role == 'deo':
+        return redirect('dataEntry')
+    else:
+        return redirect('access-denied')
+
 
 @login_required
 def docDashView(request):
-    if request.user.profile.role != 'd':
-        return redirect('access-denied')
-    # request.user contains the user object
-    else:
-        current_datetime = datetime.now()
-        doctorObj = request.user.profile.doctor
-        app_list = Appointment.objects.filter(
-            doctorID=doctorObj, startTime__gt=current_datetime)
-        context = {"doctor": doctorObj, "appointments": app_list, 'form' : PatientInfoForm()}
-        # pass the doctor as context to the template
-        return render(request, 'doctor.html', context)
+    # retreive the profile object mapped to request.user
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    current_datetime = datetime.now()
+    doctorObj = get_object_or_404(Doctor, username__username=userProf.username)
+    app_list = Appointment.objects.filter(
+        doctorID=doctorObj.pk, startTime__gt=current_datetime)
+    context = {"doctor": doctorObj, "appointments": app_list, 'form' : PatientInfoForm()}
+    # pass the doctor as context to the template
+    return render(request, 'doctor.html', context)
 
 
 @login_required
