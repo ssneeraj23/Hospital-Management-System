@@ -11,7 +11,7 @@
     <style>
         html,
         body {
-            background-image: url("{% static 'background.jpg' %}");
+            background-image: url("{% static 'da.png' %}");
             background-size: cover;
             background-repeat: no-repeat;
             height: 100%;
@@ -47,17 +47,27 @@
 
 <body>
 <nav class="navbar navbar-expand-lg fixed-top bg-light">
-    <a class="navbar-brand" href="#">Hospital Management System</a>
+    <div class="text-center">
+        <a class="navbar-brand" href="/">Hospital Management System</a>
+    </div>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         {% if user.is_authenticated %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'dashboard-page' %}">Dashboard</a>
+                    {% if user.profile.role == "d" %}
+                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'doctorDash' %}">Doctor Dashboard</a>
+                    {% elif user.profile.role == "fdo" %}
+                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'frontDesk' %}">Front Desk Dashboard</a>
+                    {% elif user.profile.role == "deo" %}
+                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'dataEntry' %}">Data Entry Dashboard</a>
+                    {% else %}
+                    <p>Dashboard button unavailable.</p>
+                    {% endif %}
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'logout-page' %}">Logout</a>
+                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'logout' %}">Logout</a>
                 </li>
             </ul>
         {% endif %}

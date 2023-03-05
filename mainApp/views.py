@@ -40,15 +40,16 @@ def docDashView(request):
 
 @login_required
 def frontDeskOpDashView(request):
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     else:
         return render(request, 'frontDesk.html')
 
-
 @login_required
 def dataEntryOpDashView(request):
-    if request.user.profile.role != 'deo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'deo':
         return redirect('access-denied')
     elif request.method == 'GET':
         appReportForm = FileAppointmentReportForm()
@@ -75,7 +76,8 @@ def dataEntryOpDashView(request):
 @login_required
 def patientRegView(request):
     # only front desk operators can register new patients
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         patientRegForm = PatientRegForm()
@@ -89,7 +91,8 @@ def patientRegView(request):
 @login_required
 def admissionRegView(request):
     # only front desk operator
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         admissionRegForm = AdmissionForm()
@@ -103,7 +106,8 @@ def admissionRegView(request):
 @login_required
 def scheduleTestView(request):
     # only front desk operator
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         scheduleTestForm = ScheduleTestForm()
@@ -116,7 +120,8 @@ def scheduleTestView(request):
 
 @login_required
 def scheduleOperationView(request):
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         scheduleOperationForm = ScheduleOperationForm()
@@ -129,7 +134,8 @@ def scheduleOperationView(request):
 
 @login_required
 def makeAppointmentView(request):
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         makeAppointmentForm = MakeAppointmentForm()
@@ -142,7 +148,8 @@ def makeAppointmentView(request):
 
 @login_required
 def dischargeView(request):
-    if request.user.profile.role != 'fdo':
+    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    if userProf.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         dischargeForm = DischargeForm()
@@ -155,7 +162,7 @@ def dischargeView(request):
 
 @login_required
 def patientInfoView(request):
-    if request.user.profile.role != 'd':
+    if userProf.role != 'd':
         return redirect('access-denied')
     elif request.method == 'GET':
         return redirect('doctorDash')
