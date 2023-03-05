@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 
 from .forms import *
 from .models import *
@@ -149,10 +150,37 @@ def patientInfoView(request):
     elif request.method == 'GET':
         return redirect('doctorDash')
     elif request.method == 'POST':
-        request.POST[]
-        return render(request, 'patientInfo.html', )
+        form = PatientInfoForm(request.POST)
+        context = {}
+        if form.is_valid():
+            patient = Patient.objects.filter(pk=form.patientID)
+            context['patient'] = patient
+        else:
+            messages.error("Invalid input")
+        return render(request, 'patientInfo.html', context)
 
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def frontDesk(request):
+    return render(request, 'frontDesk.html', {})
+
+def dataEntry(request):
+    return render(request, 'dataEntry.html', {})
+
+def base(request):
+    return render(request, 'base.html', {})
+
+def patientReg(request):
+    return render(request, 'patientReg.html', {})
+
+def patientInfo(request):
+    return render(request, 'patientInfo.html', {})
+
+def patientList(request):
+    return render(request, 'patientList.html', {})
+
+def doctor(request):
+    return render(request, 'doctor.html', {})
