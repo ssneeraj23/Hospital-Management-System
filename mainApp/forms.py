@@ -5,7 +5,8 @@ from django.core.validators import MinValueValidator
 
 from .models import *
 
-class LoginForm(AuthenticationForm): # borrowed from Vishal's code
+
+class LoginForm(AuthenticationForm):  # borrowed from Vishal's code
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['class'] = 'form-control'
@@ -13,6 +14,7 @@ class LoginForm(AuthenticationForm): # borrowed from Vishal's code
 
         self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['placeholder'] = 'Password'
+
 
 class PatientRegForm(forms.ModelForm):
     class Meta:
@@ -30,6 +32,7 @@ class PatientRegForm(forms.ModelForm):
         self.fields['phoneNumber'].widget.attrs['placeholder'] = 'Phone Number'
         self.fields['email'].widget.attrs['placeholder'] = 'Email-ID'
 
+
 class AdmissionForm(forms.ModelForm):
     class Meta:
         model = Admission
@@ -43,6 +46,7 @@ class AdmissionForm(forms.ModelForm):
         self.fields['roomID'].widget.attrs['placeholder'] = 'roomID'
         self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
         self.fields['endTime'].widget.attrs['placeholder'] = 'End Time'
+
 
 class DischargeForm(forms.Form):
     patientID = forms.ModelChoiceField(queryset=Patient.objects.all())
@@ -69,9 +73,13 @@ class MakeAppointmentForm(forms.ModelForm):
         self.fields['priority'].widget.attrs['placeholder'] = 'Priority'
 
 # handled by data entry operator
+
+
 class FileAppointmentReportForm(forms.Form):
-    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
+    appointmentID = forms.ModelChoiceField(
+        queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
     appReport = forms.FileField(allow_empty_file=False, required=True)
+
     def __init__(self, *args, **kwargs):
         super(FileAppointmentReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -80,20 +88,25 @@ class FileAppointmentReportForm(forms.Form):
         self.fields['appReport'].widget.attrs['placeholder'] = 'Appointment Report'
 
 # doctor's form
+
+
 class PrescriptionForm(forms.Form):
-    appointmentID = forms.ModelChoiceField(queryset=Appointment.objects.filter(prescription__isnull=True), required=True)
+    appointmentID = forms.ModelChoiceField(
+        queryset=Appointment.objects.filter(prescription__isnull=True), required=True)
     prescription = forms.Textarea()
+
     def __init__(self, *args, **kwargs):
         super(PrescriptionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-        
-    
+
+
 # front desk operator
 class ScheduleTestForm(forms.ModelForm):
     class Meta:
         model = Test
         fields = ['testName', 'patientID', 'scheduledTime']
+
     def __init__(self, *args, **kwargs):
         super(ScheduleTestForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -103,19 +116,24 @@ class ScheduleTestForm(forms.ModelForm):
         self.fields['scheduledTime'].widget.attrs['placeholder'] = 'Scheduled Time'
 
 # data entry operator
+
+
 class UploadTestReportForm(forms.Form):
-    testID = forms.ModelChoiceField(Test.objects.filter(testReport__isnull=True), required=True)
+    testID = forms.ModelChoiceField(Test.objects.filter(
+        testReport__isnull=True), required=True)
     testReport = forms.FileField(allow_empty_file=False, required=True)
+
     def __init__(self, *args, **kwargs):
         super(UploadTestReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
 
+
 class ScheduleOperationForm(forms.ModelForm):
     class Meta:
         model = Operation
         fields = ['opName', 'patientID', 'doctorID', 'opTheatre', 'startTime']
-    
+
     def __init__(self, *args, **kwargs):
         super(ScheduleOperationForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -126,10 +144,22 @@ class ScheduleOperationForm(forms.ModelForm):
         self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
         self.fields['opTheatre'].widget.attrs['placeholder'] = 'Operation Theatre'
 
+
 class UploadOperationReportForm(forms.Form):
-    operationID = forms.ModelChoiceField(Operation.objects.filter(operationReport__isnull=True), required=True)
+    operationID = forms.ModelChoiceField(Operation.objects.filter(
+        operationReport__isnull=True), required=True)
     opReport = forms.FileField(allow_empty_file=False, required=True)
+
     def __init__(self, *args, **kwargs):
         super(UploadOperationReportForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+
+
+class PatientInfoForm(forms.Form):
+    patientID = forms.ModelChoiceField(Patient.objects.all(), required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(PatientInfoForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
