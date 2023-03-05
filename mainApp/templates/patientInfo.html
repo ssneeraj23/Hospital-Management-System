@@ -38,6 +38,10 @@
                                 <th>Doctor ID</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
+                                <th>Priority</th>
+                                <th>Prescription</th>
+                                <th>Report</th>
+                                <th>Report Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,6 +50,10 @@
                                 <td>{{ appt.doctorID }}</td>
                                 <td>{{ appt.startTime }}</td>
                                 <td>{{ appt.endTime }}</td>
+                                <td>{{ appt.priority }}</td>
+                                <td>{{ appt.prescription }}</td>
+                                <td>{{ appt.appReport }}</td>
+                                <td>{{ appt.reportGenerationTime }}</td>
                                 {% endfor %}
                             </tr>
                         </tbody>
@@ -69,17 +77,19 @@
                     <div class="container">
                         <thead class="thead-light">
                             <tr>
-                                <th>Doctor ID</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
+                                <th>Test Name</th>
+                                <th>Time</th>
+                                <th>Report</th>
+                                <th>Report Time</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 {% for test in tests %}
-                                <td>{{ test.doctorID }}</td>
-                                <td>{{ test.startTime }}</td>
-                                <td>{{ test.endTime }}</td>
+                                <td>{{ test.testName }}</td>
+                                <td>{{ test.scheduledTime }}</td>
+                                <td>{{ test.testReport }}</td>
+                                <td>{{ test.reportGenerationTime }}</td>
                                 {% endfor %}
                             </tr>
                         </tbody>
@@ -105,16 +115,22 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Doctor ID</th>
+                                <th>Operation Name</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
+                                <th>Report</th>
+                                <th>Report Time</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 {% for op in operations %}
                                 <td>{{ op.doctorID }}</td>
+                                <td>{{ op.opName }}</td>
                                 <td>{{ op.startTime }}</td>
                                 <td>{{ op.endTime }}</td>
+                                <td>{{ test.operationReport }}</td>
+                                <td>{{ test.reportGenerationTime }}</td>
                                 {% endfor %}
                             </tr>
                         </tbody>

@@ -4,16 +4,42 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">APPOINTMENT FORM</h1>
+    <div class="card text-center">
+        <div class="card-body">
+            <h2 class="text-center mt-5">Appointment Scheduling Form</h1>
+                <!-- <p class="text-center lead">Upcoming list of appointments</p> -->
         </div>
     </div>
-    <br>
-    <div class="row">
+
+    <div class="card text-center">
         <div class="col-md-6 offset-md-3">
-            <form method="post" action="/doctor/">
+            <form method="post" action="{% url 'makeAppointment' %}">
                 {% csrf_token %}
+                {% if form.non_field_errors %}
+                {% for err in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ err|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-success">
+                    <strong>{{ message|escape }}</strong>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% if form.errors %}
+                {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ field.name }}: {{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endfor %}
+                {% endif %}
                 <div class="card bg-secondary text-white mb-3">
                     <div class="card-body">
                         <div class="form-group">
