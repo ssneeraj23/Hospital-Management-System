@@ -4,10 +4,8 @@
     <title>{% block title %}Default Title Fix{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
     <style>
         html,
         body {
@@ -62,7 +60,7 @@
                     {% elif user.profile.role == "deo" %}
                     <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'dataEntry' %}">Data Entry Dashboard</a>
                     {% else %}
-                    <p>Dashboard button unavailable.</p>
+                    <a class="nav-link btn btn-outline-dark ml-3" href="{% url 'login' %}">Data Entry Dashboard</a>
                     {% endif %}
                 </li>
 

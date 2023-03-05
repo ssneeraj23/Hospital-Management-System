@@ -11,10 +11,15 @@ from .models import *
 from datetime import datetime
 
 # Create your views here.
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('userRedirect')
+    else:
+        return redirect('login')
 
 @login_required
 def userRedirect(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
+    userProf = request.user.profile
     if userProf.role == 'd':
         return redirect('doctorDash')
     elif userProf.role == 'fdo':
@@ -24,32 +29,32 @@ def userRedirect(request):
     else:
         return redirect('access-denied')
 
-
 @login_required
 def docDashView(request):
-    # retreive the profile object mapped to request.user
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    current_datetime = datetime.now()
-    doctorObj = get_object_or_404(Doctor, username__username=userProf.username)
-    app_list = Appointment.objects.filter(
-        doctorID=doctorObj.pk, startTime__gt=current_datetime)
-    context = {"doctor": doctorObj, "appointments": app_list, 'form' : PatientInfoForm()}
-    # pass the doctor as context to the template
-    return render(request, 'doctor.html', context)
+    if request.user.profile.role != 'd':
+        return redirect('access-denied')
+    # request.user contains the user object
+    else:
+        current_datetime = datetime.now()
+        doctorObj = request.user.profile.doctor
+        app_list = Appointment.objects.filter(
+            doctorID=doctorObj, startTime__gt=current_datetime)
+        context = {"doctor": doctorObj, "appointments": app_list, 'form' : PatientInfoForm()}
+        # pass the doctor as context to the template
+        return render(request, 'doctor.html', context)
 
 
 @login_required
 def frontDeskOpDashView(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     else:
         return render(request, 'frontDesk.html')
 
+
 @login_required
 def dataEntryOpDashView(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'deo':
+    if request.user.profile.role != 'deo':
         return redirect('access-denied')
     elif request.method == 'GET':
         appReportForm = FileAppointmentReportForm()
@@ -76,8 +81,7 @@ def dataEntryOpDashView(request):
 @login_required
 def patientRegView(request):
     # only front desk operators can register new patients
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         patientRegForm = PatientRegForm()
@@ -91,8 +95,7 @@ def patientRegView(request):
 @login_required
 def admissionRegView(request):
     # only front desk operator
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         admissionRegForm = AdmissionForm()
@@ -106,8 +109,7 @@ def admissionRegView(request):
 @login_required
 def scheduleTestView(request):
     # only front desk operator
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         scheduleTestForm = ScheduleTestForm()
@@ -120,8 +122,7 @@ def scheduleTestView(request):
 
 @login_required
 def scheduleOperationView(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         scheduleOperationForm = ScheduleOperationForm()
@@ -134,8 +135,7 @@ def scheduleOperationView(request):
 
 @login_required
 def makeAppointmentView(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         makeAppointmentForm = MakeAppointmentForm()
@@ -148,8 +148,7 @@ def makeAppointmentView(request):
 
 @login_required
 def dischargeView(request):
-    userProf = get_object_or_404(Profile, username__username=request.user.username)
-    if userProf.role != 'fdo':
+    if request.user.profile.role != 'fdo':
         return redirect('access-denied')
     elif request.method == 'GET':
         dischargeForm = DischargeForm()
@@ -162,7 +161,7 @@ def dischargeView(request):
 
 @login_required
 def patientInfoView(request):
-    if userProf.role != 'd':
+    if request.user.profile.role != 'd':
         return redirect('access-denied')
     elif request.method == 'GET':
         return redirect('doctorDash')
@@ -170,7 +169,8 @@ def patientInfoView(request):
         form = PatientInfoForm(request.POST)
         context = {}
         if form.is_valid():
-            patient = Patient.objects.filter(pk=form.patientID)
+            data = form.cleaned_data
+            patient = Patient.objects.get(pk=data['patientID'].pk)
             context['patient'] = patient
         else:
             messages.error("Invalid input")

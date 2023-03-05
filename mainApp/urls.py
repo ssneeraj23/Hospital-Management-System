@@ -5,8 +5,8 @@ from . import views
 from .forms import *
 
 urlpatterns = [
-
-    path('', LoginView.as_view(template_name='login.html',
+    path('', views.home, name='home'),
+    path('login', LoginView.as_view(template_name='login.html',
          next_page='userRedirect', authentication_form=LoginForm), name='login'),
     path('userRedirect', views.userRedirect, name='userRedirect'),
     path('doctorDash', views.docDashView, name='doctorDash'),

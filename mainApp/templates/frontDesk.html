@@ -2,26 +2,6 @@
 {% block title %}Front Desk Operator{% endblock %}
 
 {% block content %}
-
-    <div class="container">
-        <div class="box">
-          <h1 class="text-center">Welcome, Front Desk Operator!</h1>
-        </div>
-    </div>
-    <br>
-    <div class="flex-container centered">
-        <div class="d-flex justify-content-center h-100">
-            <div class="card flex-item">
-                <div class="card-header">
-                    <span class="input-group-text"><i class="bi bi-file-earmark-medical"></i></span>
-                </div>
-                <div class="card-body">
-                    <a href="{% url 'patientReg' %}" class="btn btn-light">REGISTER A PATIENT</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="centered">
         <div class="d-flex justify-content-center">
             <div class="card flex-item">
@@ -29,70 +9,12 @@
                     What would you like to do today?
                 </div>
                 <div class="card-body btn-group-vertical">
-                    <a href="{% url 'patientReg' %}" class="btn btn-block btn-outline-primary">File complaint</a>
-                    <a href="{% url 'patientInfo' %}" class="btn btn-block btn-outline-primary">View complaints</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="flex-container centered">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card bg-primary text-white mb-3">
-                    <div class="card-header text-center">REGISTER PATIENT</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for register patient</p>
-                        <a href="page1.html" class="btn btn-light">Link</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-secondary text-white mb-3">
-                    <div class="card-header text-center">ADMIT NEW PATIENT</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for admit new patient</p>
-                        <a href="page2.html" class="btn btn-light">Link</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-success text-white mb-3">
-                    <div class="card-header text-center">DISCHARGE PATIENT</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for discharge patient</p>
-                        <a href="page3.html" class="btn btn-light">Link</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card bg-danger text-white mb-3">
-                    <div class="card-header text-center">MAKE AN APPOINTMENT</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for making an appointment</p>
-                        <a href="page4.html" class="btn btn-light">Link</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-warning text-white mb-3">
-                    <div class="card-header text-center">SCHEDULE TEST</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for scheduling test</p>
-                        <a href="page5.html" class="btn btn-light">Link</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-info text-white mb-3">
-                    <div class="card-header text-center">SCHEDULE OPERATION</div>
-                    <div class="card-body text-center">
-                        <p class="card-text">Link for scheduling treatment</p>
-                        <a href="page6.html" class="btn btn-light">Link</a>
-                    </div>
+                    <a href="{% url 'patientReg' %}" class="btn btn-block btn-outline-primary">Register a patient</a>
+                    <a href="{% url 'admissionReg' %}" class="btn btn-block btn-outline-primary">Admit an existing patient</a>
+                    <a href="{% url 'discharge' %}" class="btn btn-block btn-outline-primary">Discharge an admitted patient</a>
+                    <a href="{% url 'makeAppointment' %}" class="btn btn-block btn-outline-primary">Schedule an appointment</a>
+                    <a href="{% url 'scheduleTest' %}" class="btn btn-block btn-outline-primary">Schedule a test</a>
+                    <a href="{% url 'scheduleOperation' %}" class="btn btn-block btn-outline-primary">Schedule an operation</a>
                 </div>
             </div>
         </div>

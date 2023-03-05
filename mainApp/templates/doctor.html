@@ -1,38 +1,42 @@
 {% extends 'base.html' %}
 {% block title %}Doctor Dashboard{% endblock %}
 {% block content %}
+
 <div class="container">
-  <div class="box">
+  <div class="card">
       <h1 class="text-center">Welcome, Dr. {{ doctor.name }}</h1>
   </div>
 </div>  
 
-<div class="flex-container centered">
-  <div class="d-flex justify-content-center h-100">
-    <div class="card flex-item text-center">
+<div class="d-flex flex-container centered align-items-stretched">
+    <div class="card text-center">
       <div class="card-header">
         <h3>Patient Information</h3>
       </div>
-      <img src="/static/pi.png" class="card-img-top" alt="patient-info" height="250px">
+      <div> 
+        <img src="/static/pi.png" class="card-img-top" alt="patient-info" height="250px">
+      </div>
       <div class="card-body">
-        <form action="{% url 'patientInfo' %}" method="POST" color="green">
+        <form action = "{% url 'patientInfo' %}" method = "post" color = "green">
           {% csrf_token %}
-          {% if appointment_form.non_field_errors %}
-              {% for err in appointment_form.non_field_errors %}
+          {% if form.non_field_errors %}
+              {% for err in form.non_field_errors %}
                   <div class="alert alert-danger">
                       <strong>{{ err|escape }}</strong>
                   </div>
-                  {% endfor %}
+              {% endfor %}
           {% endif %}
           {% if messages %}
-          {% for message in messages %}
-          <div class="alert alert-success">
+
+              {% for message in messages %}
+                  <div class="alert alert-success">
                       <strong>{{ message|escape }}</strong>
                   </div>
               {% endfor %}
+
           {% endif %}
-          {% if appointment_form.errors %}
-              {% for field in appointment_form %}
+          {% if form.errors %}
+              {% for field in form %}
                   {% for error in field.errors %}
                       <div class="alert alert-danger">
                           <strong>{{ field.name }}: {{ error|escape }}</strong>
@@ -42,96 +46,39 @@
           {% endif %}
           <div class="input-group form-group">
             <div class="input-group-prepend">
-                <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                <span class="input-group-text">Patient ID</span>
             </div>
-            {{ appointment_form.appointmentID }}
+            {{ form.patientID }}
           </div>
           <div class="form-group text-center">
             <input type="submit" value="Submit" class="btn btn-primary" name="appointment_submit">
           </div>
-        </form>
+          </form>
       </div>
     </div>
-    <div class="card flex-item text-center">
+
+    <div class="card text-center">
       <div class="card-header">
-        <h3>List of Patients</h3>
+        <h3>Patient List</h3>
       </div>
-      <img src="/static/pl.png" class="card-img-top" alt="patient-list" height="250px">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fbi bi-file-earmark-medical"></i></span>
+      <div>
+        <img src="/static/pl.png" class="card-img-top" alt="patient-info" height="250px">
       </div>
-      <div class="card-body">
-        <a href="{% url 'patientInfo' %}" class="btn btn-light">LIST OF PATIENTS</a>
+      <div class="card-body text-center">
+        <a href="{% url 'patientList' %}" class="btn btn-primary">Click here</a>
       </div>
+
     </div>
-  </div>
 </div>
-
-    <div class="flex-container">
-        <div class="row g-3">
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card text-center h-200">
-                    <img src="/static/pi.png" class="card-img-top" alt="London" height="250px">
-                    <div class="card-body">
-                        <h5 class="card-title">PATIENT SEARCH</h5>
-                        <form action = "{% url 'patientInfo' %}" method = "post" color = "green">Patient ID 
-                        {% csrf_token %}
-                        {% if form.non_field_errors %}
-                            {% for err in form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    <strong>{{ err|escape }}</strong>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        {% if messages %}
-
-                            {% for message in messages %}
-                                <div class="alert alert-success">
-                                    <strong>{{ message|escape }}</strong>
-                                </div>
-                            {% endfor %}
-
-                        {% endif %}
-                        {% if form.errors %}
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-danger">
-                                        <strong>{{ field.name }}: {{ error|escape }}</strong>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
-                        <div class="input-group form-group">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                          </div>
-                          {{ form.patientID }}
-                        </div>
-                        <div class="form-group text-center">
-                          <input type="submit" value="Submit" class="btn btn-primary" name="appointment_submit">
-                        </div>
-                        </form>
-                    
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card text-center "  style = >
-                    <img src="/static/pl2.png" class="card-img-top" alt="New York" height="260px" >
-                    <div class="card-body">
-                        <h5 class="card-title">TREATED PATIENTS</h5>
-                        <p class="card-text">List of patients treated by you</p>
-                        <a href="{% url 'patientList' %}" class="btn btn-primary">Link</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- TODO: Read about col-12 etc and fix card heights, also figure out doctor name -->
     <div class="container">
-      <h1 class="text-center mt-5 navbar-text">APPOINTMENTS</h1>
-      <p class="text-center lead">Upcoming list of appointments</p>
-    </div>
-    {% if appointments %}
+      <span class="card text-center">
+        <div class="card-header">
+          <h1 class="text-center mt-5 navbar-text">Your Upcoming Appointments</h1>
+          <!-- <p class="text-center lead">Upcoming list of appointments</p> -->
+        </div>
+        <div class="card-body text-center">
+          {% if appointments %}
     <div class="table-responsive">
       <table class="table table-bordered table-hover">
           <div class="container">
@@ -157,6 +104,10 @@
     {% else %}
     No appointments to show.
     {% endif %}
+        </div>
+      </span>
+    </div>
+    
 
     <!-- Optional JavaScript; choose one of the two! -->
 
