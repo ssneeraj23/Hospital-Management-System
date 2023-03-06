@@ -10,7 +10,7 @@
     </div>
     <div class="card text-center">
         <div class="col-md-6 offset-md-3">
-            <form method="post" action="{% 'scheduleOperation' %}">
+            <form method="post" action="{% url 'scheduleOperation' %}">
                 {% csrf_token %}
                 {% if form.non_field_errors %}
                 {% for err in form.non_field_errors %}
