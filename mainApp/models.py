@@ -1,6 +1,18 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User, AbstractUser
+
+class Profile(models.Model):
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    ROLES = [
+        ('d', 'Doctor'),
+        ('fdo', 'Front Desk Operator'),
+        ('deo', 'Data Entry Operator'),
+    ]
+    role = models.CharField(max_length=3, choices=ROLES, default='d')
+    def __str__(self):
+        return str(self.username)
 
 # Create your models here.
 class Patient(models.Model):
@@ -11,7 +23,7 @@ class Patient(models.Model):
     phoneNumber = models.CharField(max_length=20, null=True)
     email = models.EmailField(null=True)
     def __str__(self):
-        return self.pk + " " + self.name
+        return str(self.pk) + " - " + self.name # necessary typecast
 
 class Room(models.Model):
     roomType = [('w', "Ward"), ('o', 'Operation Theatre')]
@@ -19,6 +31,7 @@ class Room(models.Model):
     available = models.BooleanField(default=False)
 
 class Doctor(models.Model):
+    username = models.OneToOneField(Profile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default="Vijay")
     address = models.CharField(max_length=100, null=True)
     phoneNumber = models.CharField(max_length=20, null=True)
@@ -26,7 +39,7 @@ class Doctor(models.Model):
     department = models.CharField(max_length = 20)
     officeNumber = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,5}', message="Office number should be between 1 and 5 digits")])
     def __str__(self):
-        return self.pk + " " + self.name
+        return str(self.pk) + " " + self.name # necessary typecast
 
 class Appointment(models.Model):
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_booked')
@@ -43,7 +56,7 @@ class Appointment(models.Model):
     appReport = models.FileField(null=True, blank=True)
     reportGenerationTime = models.DateTimeField(null=True, blank=True)
     def __str__(self):
-        return str(self.pk) + " - " + str(self.patientID) + " - " + self.startTime
+        return str(self.pk) + " - " + str(self.patientID) + " - " + self.startTime.strftime("%d/%m/%Y, %H:%M:%S")
 
 class Admission(models.Model):
     def _validate_room(value):
@@ -58,8 +71,8 @@ class Test(models.Model):
     testName = models.CharField(max_length=50)
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_tested')
     scheduledTime = models.DateTimeField()
-    testReport = models.FileField()
-    reportGenerationTime = models.DateTimeField()
+    testReport = models.FileField(null=True, blank=True)
+    reportGenerationTime = models.DateTimeField(null=True, blank=True)
 
 class Operation(models.Model):
     def _validate_room(value):
@@ -70,6 +83,6 @@ class Operation(models.Model):
     doctorID = models.ManyToManyField(Doctor, related_name='doctors')
     opTheatre = models.ForeignKey(Room, related_name='where', validators=[_validate_room], on_delete=models.CASCADE)
     startTime = models.DateTimeField()
-    endTime = models.DateTimeField()
-    operationReport = models.FileField()
-    reportGenerationTime = models.DateTimeField()
+    endTime = models.DateTimeField(null=True, blank=True)
+    operationReport = models.FileField(null=True, blank=True)
+    reportGenerationTime = models.DateTimeField(null=True, blank=True)
