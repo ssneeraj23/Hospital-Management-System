@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Patient List{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <span class="card text-center">
+        <div class="card-header">
+            <h2 class="text-center mt-5 navbar-text">Patients Under Your Care</h1>
+        </div>
+
+        <div class="card-header">
+            <h5 class="text-center">Appointment History</h5>
+        </div>
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that appointments is passed in context -->
+            {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for appt in appointments %}
+                                <td>{{ appt.patientID }}</td>
+                                <td>{{ appt.startTime }}</td>
+                                <td>{{ appt.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>You have had no appointments.</strong></p>
+            {% endif %}
+        </div>
+
+        <div class="card-header">
+            <h5 class="text-center">Operation History</h5>
+        </div>
+        <div class="card-body text-center">
+            <!-- NOTE: assumed that operations is passed in context -->
+            {% if operations %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <div class="container">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for op in operations %}
+                                <td>{{ op.patientID }}</td>
+                                <td>{{ op.startTime }}</td>
+                                <td>{{ op.endTime }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center"><strong>You have conducted no operations.</strong></p>
+            {% endif %}
+        </div>
+
+    </span>
+</div>
+{% endblock %}

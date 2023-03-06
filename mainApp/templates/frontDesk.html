@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Front Desk Operator{% endblock %}
+
+{% block content %}
+    <div class="centered">
+        <div class="d-flex justify-content-center">
+            <div class="card flex-item">
+                <div class="d-flex card-header justify-content-center">
+                    What would you like to do today?
+                </div>
+                <div class="card-body btn-group-vertical">
+                    <a href="{% url 'patientReg' %}" class="btn btn-block btn-outline-primary">Register a patient</a>
+                    <a href="{% url 'admissionReg' %}" class="btn btn-block btn-outline-primary">Admit an existing patient</a>
+                    <a href="{% url 'discharge' %}" class="btn btn-block btn-outline-primary">Discharge an admitted patient</a>
+                    <a href="{% url 'makeAppointment' %}" class="btn btn-block btn-outline-primary">Schedule an appointment</a>
+                    <a href="{% url 'scheduleTest' %}" class="btn btn-block btn-outline-primary">Schedule a test</a>
+                    <a href="{% url 'scheduleOperation' %}" class="btn btn-block btn-outline-primary">Schedule an operation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

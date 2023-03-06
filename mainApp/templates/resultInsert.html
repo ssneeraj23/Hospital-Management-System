@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Result Insert{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card bg-warning">
+      <div class="card-body">
+        <form method="post" action="{% url 'appointments' %}">
+          {% csrf_token %}
+          <h5 class="card-title">Appointment Result</h5>
+          <textarea name="appointment_result" class="form-control" rows="3"></textarea>
+          <br>
+          <div class="text-center">
+            <button type="submit" class="btn btn-light">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="card bg-danger">
+      <div class="card-body">
+        <form method="post" action="{% url 'drugs_prescribed' %}">
+          {% csrf_token %}
+          <h5 class="card-title">Drugs Prescribed</h5>
+          <textarea name="drugs_prescribed" class="form-control" rows="3"></textarea>
+          <br>
+          <div class="text-center">
+            <button type="submit" class="btn btn-light">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="card bg-success">
+      <div class="card-body">
+        <form method="post" action="{% url 'treatment_result' %}">
+          {% csrf_token %}
+          <h5 class="card-title">Treatment Result</h5>
+          <textarea name="treatment_result" class="form-control" rows="3"></textarea>
+          <br>
+          <div class="text-center">
+            <button type="submit" class="btn btn-light">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

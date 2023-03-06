@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}Doctor Dashboard{% endblock %}
+{% block content %}
+
+<div class="container-fluid centered">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Patient Information</h3>
+        </div>
+        <div>
+          <img src="/static/pi.png" class="card-img-top" alt="patient-info" height="250px">
+        </div>
+        <div class="card-body">
+          <form action="{% url 'patientInfo' %}" method="post" color="green">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for err in form.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>{{ err|escape }}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% if messages %}
+
+            {% for message in messages %}
+            <div class="alert alert-success">
+              <strong>{{ message|escape }}</strong>
+            </div>
+            {% endfor %}
+
+            {% endif %}
+            {% if form.errors %}
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ field.name }}: {{ error|escape }}</strong>
+            </div>
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Patient ID</span>
+              </div>
+              {{ form.patientID }}
+            </div>
+            <div class="form-group text-center">
+              <input type="submit" value="Submit" class="btn btn-primary" name="appointment_submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Your Patients</h3>
+        </div>
+        <div>
+          <img src="/static/pl.png" class="card-img-top" alt="patient-info" height="250px">
+        </div>
+        <div class="card-body text-center">
+          <a href="{% url 'patientList' %}" class="btn btn-primary">Click here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODO: Read about col-12 etc and fix card heights, also figure out doctor name -->
+<div class="container">
+  <span class="card text-center">
+    <div class="card-header">
+      <h1 class="text-center mt-5 navbar-text">Your Upcoming Appointments</h1>
+      <!-- <p class="text-center lead">Upcoming list of appointments</p> -->
+    </div>
+    <div class="card-body text-center">
+      {% if appointments %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <div class="container">
+            <thead class="thead-light">
+              <tr>
+                <th>Patient ID</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for appt in appointments %}
+                <td>{{ appt.patientID }}</td>
+                <td>{{ appt.startTime }}</td>
+                <td>{{ appt.endTime }}</td>
+                {% endfor %}
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-center"><strong>You have no pending appointments.</strong></p>
+    {% endif %}
+</div>
+{% endblock %}

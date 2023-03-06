@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block title %}Data Entry Operator Interface{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="box">
+        <h1 class="text-center">Welcome, Data Entry Operator!</h1>
+    </div>
+</div>
+<div class="flex-container centered">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card flex-item">
+            <div class="card-header">
+                <h3>Upload Appointment Report</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'dataEntry' %}">
+                    {% csrf_token %}
+                    {% if appointment_form.non_field_errors %}
+                    {% for err in appointment_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ err|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        <strong>{{ message|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if appointment_form.errors %}
+                    {% for field in appointment_form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ field.name }}: {{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                        </div>
+                        {{ appointment_form.appointmentID }}
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-file-earmark-medical"></i></span>
+                        </div>
+                        {{ appointment_form.appReport }}
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary" name="appointment_submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card flex-item">
+            <div class="card-header">
+                <h3>Upload Test Report</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'dataEntry' %}">
+                    {% csrf_token %}
+                    {% if test_form.non_field_errors %}
+                    {% for err in test_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ err|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        <strong>{{ message|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if test_form.errors %}
+                    {% for field in test_form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ field.name }}: {{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                        </div>
+                        {{ test_form.testID }}
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-file-earmark-medical"></i></span>
+                        </div>
+                        {{ test_form.testReport }}
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary" name="test_submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card flex-item">
+            <div class="card-header">
+                <h3>Upload Operation Report</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'dataEntry' %}">
+                    {% csrf_token %}
+                    {% if operation_form.non_field_errors %}
+                    {% for err in operation_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ err|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        <strong>{{ message|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if operation_form.errors %}
+                    {% for field in operation_form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ field.name }}: {{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                        </div>
+                        {{ operation_form.operationID }}
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-file-earmark-medical"></i></span>
+                        </div>
+                        {{ operation_form.opReport }}
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary" name="operation_submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

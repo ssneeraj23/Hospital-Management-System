@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Schedule Operation{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card text-center">
+        <div class="card-body">
+            <h2 class="text-center mt-5">Treatment Scheduling Form</h1>
+                <!-- <p class="text-center lead">Upcoming list of appointments</p> -->
+        </div>
+    </div>
+    <div class="card text-center">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" action="{% url 'scheduleOperation' %}">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                {% for err in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ err|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% if messages %}
+
+                {% for message in messages %}
+                <div class="alert alert-success">
+                    <strong>{{ message|escape }}</strong>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+                {% if form.errors %}
+                {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ field.name }}: {{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endfor %}
+                {% endif %}
+                <div class="card bg-secondary text-white mb-3">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="card bg-success">
+                                <div class="card-body">
+
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.patientID}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-file-medical fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.doctorID}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar-alt fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.startTime}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-syringe fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.opName}}
+                                    </div>
+                                    <br>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i
+                                                    class="fas fa-prescription-bottle-alt fa-fw"
+                                                    style='font-size:24px'></i></span>
+                                        </div>
+                                        {{form.opTheatre}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
