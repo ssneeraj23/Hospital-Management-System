@@ -62,15 +62,15 @@ def dataEntryOpDashView(request):
         opReportForm = UploadOperationReportForm()
     elif request.method == 'POST':
         if 'test_submit' in request.POST:
-            testReportForm = UploadTestReportForm(request.POST)
+            testReportForm = UploadTestReportForm(request.POST, request.FILES)
             if testReportForm.is_valid():
                 testReportForm.save()
         elif 'operation_submit' in request.POST:
-            opReportForm = UploadOperationReportForm(request.POST)
+            opReportForm = UploadOperationReportForm(request.POST, request.FILES)
             if opReportForm.is_valid():
                 opReportForm.save()
         elif 'appointment_submit' in request.POST:
-            appReportForm = FileAppointmentReportForm(request.POST)
+            appReportForm = FileAppointmentReportForm(request.POST, request.FILES)
             if appReportForm.is_valid():
                 appReportForm.save()
     context = {'appointment_form': appReportForm,
@@ -86,7 +86,7 @@ def patientRegView(request):
     elif request.method == 'GET':
         patientRegForm = PatientRegForm()
     elif request.method == 'POST':
-        patientRegForm = PatientRegForm(request.POST)
+        patientRegForm = PatientRegForm(request.POST, request.FILES)
         if patientRegForm.is_valid():
             patientRegForm.save()
     return render(request, 'patientReg.html', {'form': patientRegForm})
@@ -100,7 +100,7 @@ def admissionRegView(request):
     elif request.method == 'GET':
         admissionRegForm = AdmissionForm()
     elif request.method == 'POST':
-        admissionRegForm = Admission(request.POST)
+        admissionRegForm = Admission(request.POST, request.FILES)
         if admissionRegForm.is_valid():
             admissionRegForm.save()
     return render(request, 'admissionReg.html', {'form': admissionRegForm})
@@ -114,7 +114,7 @@ def scheduleTestView(request):
     elif request.method == 'GET':
         scheduleTestForm = ScheduleTestForm()
     elif request.method == 'POST':
-        scheduleTestForm = ScheduleTestForm(request.POST)
+        scheduleTestForm = ScheduleTestForm(request.POST, request.FILES)
         if scheduleTestForm.is_valid():
             scheduleTestForm.save()
     return render(request, 'scheduleTest.html', {'form': scheduleTestForm})
@@ -127,7 +127,7 @@ def scheduleOperationView(request):
     elif request.method == 'GET':
         scheduleOperationForm = ScheduleOperationForm()
     elif request.method == 'POST':
-        scheduleOperationForm = ScheduleOperationForm(request.POST)
+        scheduleOperationForm = ScheduleOperationForm(request.POST, request.FILES)
         if scheduleOperationForm.is_valid():
             scheduleOperationForm.save()
     return render(request, 'scheduleOperation.html', {'form': scheduleOperationForm})
@@ -140,7 +140,7 @@ def makeAppointmentView(request):
     elif request.method == 'GET':
         makeAppointmentForm = MakeAppointmentForm()
     elif request.method == 'POST':
-        makeAppointmentForm = MakeAppointmentForm(request.POST)
+        makeAppointmentForm = MakeAppointmentForm(request.POST, request.FILES)
         if makeAppointmentForm.is_valid():
             makeAppointmentForm.save()
     return render(request, 'makeAppointment.html', {'form': makeAppointmentForm})
@@ -153,7 +153,7 @@ def dischargeView(request):
     elif request.method == 'GET':
         dischargeForm = DischargeForm()
     elif request.method == 'POST':
-        dischargeForm = DischargeForm(request.POST)
+        dischargeForm = DischargeForm(request.POST, request.FILES)
         if dischargeForm.is_valid():
             dischargeForm.save()
     return render(request, 'dischargeForm.html', {'form': dischargeForm})
@@ -166,7 +166,7 @@ def patientInfoView(request):
     elif request.method == 'GET':
         return redirect('doctorDash')
     elif request.method == 'POST':
-        form = PatientInfoForm(request.POST)
+        form = PatientInfoForm(request.POST, request.FILES)
         context = {}
         if form.is_valid():
             data = form.cleaned_data

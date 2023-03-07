@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.validators import MinValueValidator
-
+import datetime
 from .models import *
 
 
@@ -36,7 +36,7 @@ class PatientRegForm(forms.ModelForm):
 class AdmissionForm(forms.ModelForm):
     class Meta:
         model = Admission
-        fields = '__all__'
+        exclude = ['endTime']
 
     def __init__(self, *args, **kwargs):
         super(AdmissionForm, self).__init__(*args, **kwargs)
@@ -45,7 +45,6 @@ class AdmissionForm(forms.ModelForm):
         self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
         self.fields['roomID'].widget.attrs['placeholder'] = 'roomID'
         self.fields['startTime'].widget.attrs['placeholder'] = 'Start Time'
-        self.fields['endTime'].widget.attrs['placeholder'] = 'End Time'
 
 
 class DischargeForm(forms.Form):
@@ -56,6 +55,19 @@ class DischargeForm(forms.Form):
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
+    def clean(self):
+        admList = Admission.objects.get(patientID=self.patientID, endTime__isnull=True)
+        
+
+        
+
+    def save(self):
+        admObj = Admission.objects.get(patientID=self.patientID, endTime__isnull=True)
+        admObj.roomID.available = True
+        admObj.endTime = datetime.now()
+        admObj.save()
+
+
 
 
 class MakeAppointmentForm(forms.ModelForm):
@@ -73,8 +85,6 @@ class MakeAppointmentForm(forms.ModelForm):
         self.fields['priority'].widget.attrs['placeholder'] = 'Priority'
 
 # handled by data entry operator
-
-
 class FileAppointmentReportForm(forms.Form):
     appointmentID = forms.ModelChoiceField(
         queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
@@ -86,10 +96,19 @@ class FileAppointmentReportForm(forms.Form):
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.fields['appointmentID'].widget.attrs['placeholder'] = 'Appointment ID'
         self.fields['appReport'].widget.attrs['placeholder'] = 'Appointment Report'
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data['appointmentID'].appReport is not None:
+            raise ValidationError('This appointment already has an associated report')
+        return cleaned_data
+        
+    def save(self):
+        data = self.cleaned_data
+        appObj = data['appointmentID']
+        appObj.appReport = data['appReport']
+        appObj.save()
 
 # doctor's form
-
-
 class PrescriptionForm(forms.Form):
     appointmentID = forms.ModelChoiceField(
         queryset=Appointment.objects.filter(prescription__isnull=True), required=True)
@@ -127,6 +146,7 @@ class UploadTestReportForm(forms.Form):
         super(UploadTestReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.testID.widget.attrs['placeholder'] = 'Test ID'
 
 
 class ScheduleOperationForm(forms.ModelForm):
