@@ -72,7 +72,7 @@ class Appointment(models.Model):
 
 
 class Admission(models.Model):
-    def _validate_room(value):
+    def _validate_room(self, value: Room):
         if value.type != 'w':
             raise ValidationError('This room is not an admission ward')
     patientID = models.ForeignKey(
@@ -98,7 +98,7 @@ class Test(models.Model):
 
 
 class Operation(models.Model):
-    def _validate_room(value):
+    def _validate_room(self, value: Room):
         if value.type != 'o':
             raise ValidationError('This room is not suitable for operations.')
     opName = models.CharField(max_length=50)

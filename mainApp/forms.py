@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.validators import MinValueValidator
-import datetime
+from datetime import datetime
 from .models import *
 
 
@@ -55,19 +55,17 @@ class DischargeForm(forms.Form):
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
-    def clean(self):
-        admList = Admission.objects.get(patientID=self.patientID, endTime__isnull=True)
-        
 
-        
+    def clean(self):
+        admList = Admission.objects.get(
+            patientID=self.patientID, endTime__isnull=True)
 
     def save(self):
-        admObj = Admission.objects.get(patientID=self.patientID, endTime__isnull=True)
+        admObj = Admission.objects.get(
+            patientID=self.patientID, endTime__isnull=True)
         admObj.roomID.available = True
         admObj.endTime = datetime.now()
         admObj.save()
-
-
 
 
 class MakeAppointmentForm(forms.ModelForm):
@@ -85,6 +83,8 @@ class MakeAppointmentForm(forms.ModelForm):
         self.fields['priority'].widget.attrs['placeholder'] = 'Priority'
 
 # handled by data entry operator
+
+
 class FileAppointmentReportForm(forms.Form):
     appointmentID = forms.ModelChoiceField(
         queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
@@ -96,12 +96,14 @@ class FileAppointmentReportForm(forms.Form):
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.fields['appointmentID'].widget.attrs['placeholder'] = 'Appointment ID'
         self.fields['appReport'].widget.attrs['placeholder'] = 'Appointment Report'
+
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data['appointmentID'].appReport is not None:
-            raise ValidationError('This appointment already has an associated report')
+            raise ValidationError(
+                'This appointment already has an associated report')
         return cleaned_data
-        
+
     def save(self):
         data = self.cleaned_data
         appObj = data['appointmentID']
@@ -109,15 +111,23 @@ class FileAppointmentReportForm(forms.Form):
         appObj.save()
 
 # doctor's form
+
+
 class PrescriptionForm(forms.Form):
     appointmentID = forms.ModelChoiceField(
         queryset=Appointment.objects.filter(prescription__isnull=True), required=True)
-    prescription = forms.Textarea()
+    prescription = forms.CharField(required=True, widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
         super(PrescriptionForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+
+    def save(self):
+        data = self.cleaned_data
+        appObj = data['appointmentID']
+        appObj.prescription = data['prescription']
+        appObj.save()
 
 
 # front desk operator
@@ -147,6 +157,12 @@ class UploadTestReportForm(forms.Form):
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.testID.widget.attrs['placeholder'] = 'Test ID'
+    
+    def save(self):
+        data = self.cleaned_data
+        testObj = data['testID']
+        testObj.testReport = data['testReport']
+        testObj.save()
 
 
 class ScheduleOperationForm(forms.ModelForm):
@@ -174,6 +190,12 @@ class UploadOperationReportForm(forms.Form):
         super(UploadOperationReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
+    
+    def save(self):
+        data = self.cleaned_data
+        operationObj = data['operationID']
+        operationObj.operationReport = data['opReport']
+        operationObj.save()
 
 
 class PatientInfoForm(forms.Form):
