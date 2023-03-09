@@ -37,7 +37,6 @@
                             <tr>
                                 <th>Doctor ID</th>
                                 <th>Start Time</th>
-                                <th>End Time</th>
                                 <th>Priority</th>
                                 <th>Prescription</th>
                                 <th>Report</th>
@@ -49,7 +48,6 @@
                                 {% for appt in appointments %}
                                 <td>{{ appt.doctorID }}</td>
                                 <td>{{ appt.startTime }}</td>
-                                <td>{{ appt.endTime }}</td>
                                 <td>{{ appt.priority }}</td>
                                 <td>{{ appt.prescription }}</td>
                                 <td>{{ appt.appReport }}</td>
@@ -84,8 +82,8 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for test in tests %}
                             <tr>
-                                {% for test in tests %}
                                 <td>{{ test.testName }}</td>
                                 <td>{{ test.scheduledTime }}</td>
                                 <td>{{ test.testReport }}</td>

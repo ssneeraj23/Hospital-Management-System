@@ -21,7 +21,6 @@
                             <tr>
                                 <th>Patient ID</th>
                                 <th>Start Time</th>
-                                <th>End Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +28,6 @@
                                 {% for appt in appointments %}
                                 <td>{{ appt.patientID }}</td>
                                 <td>{{ appt.startTime }}</td>
-                                <td>{{ appt.endTime }}</td>
                                 {% endfor %}
                             </tr>
                         </tbody>

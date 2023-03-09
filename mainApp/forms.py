@@ -48,7 +48,7 @@ class AdmissionForm(forms.ModelForm):
 
 
 class DischargeForm(forms.Form):
-    patientID = forms.ModelChoiceField(queryset=Patient.objects.all())
+    patientID = forms.ModelChoiceField(queryset=Patient.objects.filter(pk__in=Admission.objects.filter(endTime__isnull=True).values('patientID')))
 
     def __init__(self, *args, **kwargs):
         super(DischargeForm, self).__init__(*args, **kwargs)
@@ -56,13 +56,10 @@ class DischargeForm(forms.Form):
             self.fields[field_name].widget.attrs['class'] = 'form-control'
         self.fields['patientID'].widget.attrs['placeholder'] = 'Patient ID'
 
-    def clean(self):
-        admList = Admission.objects.get(
-            patientID=self.patientID, endTime__isnull=True)
-
     def save(self):
+        data = self.cleaned_data
         admObj = Admission.objects.get(
-            patientID=self.patientID, endTime__isnull=True)
+            patientID=data['patientID'], endTime__isnull=True)
         admObj.roomID.available = True
         admObj.endTime = datetime.now()
         admObj.save()
@@ -149,15 +146,15 @@ class ScheduleTestForm(forms.ModelForm):
 
 class UploadTestReportForm(forms.Form):
     testID = forms.ModelChoiceField(Test.objects.filter(
-        testReport__isnull=True), required=True)
+        testReport=''), required=True)
     testReport = forms.FileField(allow_empty_file=False, required=True)
 
     def __init__(self, *args, **kwargs):
         super(UploadTestReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-        self.testID.widget.attrs['placeholder'] = 'Test ID'
-    
+        self.fields['testID'].widget.attrs['placeholder'] = 'Test ID'
+
     def save(self):
         data = self.cleaned_data
         testObj = data['testID']
@@ -190,7 +187,7 @@ class UploadOperationReportForm(forms.Form):
         super(UploadOperationReportForm, self).__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-    
+
     def save(self):
         data = self.cleaned_data
         operationObj = data['operationID']

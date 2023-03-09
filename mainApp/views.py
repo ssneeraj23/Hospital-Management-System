@@ -11,11 +11,14 @@ from .models import *
 from datetime import datetime
 
 # Create your views here.
+
+
 def home(request):
     if request.user.is_authenticated:
         return redirect('userRedirect')
     else:
         return redirect('login')
+
 
 @login_required
 def userRedirect(request):
@@ -29,6 +32,7 @@ def userRedirect(request):
     else:
         return redirect('access-denied')
 
+
 @login_required
 def docDashView(request):
     if request.user.profile.role != 'd':
@@ -39,7 +43,8 @@ def docDashView(request):
         doctorObj = request.user.profile.doctor
         app_list = Appointment.objects.filter(
             doctorID=doctorObj, startTime__gt=current_datetime)
-        context = {"doctor": doctorObj, "appointments": app_list, 'form' : PatientInfoForm()}
+        context = {"doctor": doctorObj,
+                   "appointments": app_list, 'form': PatientInfoForm()}
         # pass the doctor as context to the template
         return render(request, 'doctor.html', context)
 
@@ -61,16 +66,21 @@ def dataEntryOpDashView(request):
         testReportForm = UploadTestReportForm()
         opReportForm = UploadOperationReportForm()
     elif request.method == 'POST':
+        appReportForm = FileAppointmentReportForm()
+        testReportForm = UploadTestReportForm()
+        opReportForm = UploadOperationReportForm()
         if 'test_submit' in request.POST:
             testReportForm = UploadTestReportForm(request.POST, request.FILES)
             if testReportForm.is_valid():
                 testReportForm.save()
         elif 'operation_submit' in request.POST:
-            opReportForm = UploadOperationReportForm(request.POST, request.FILES)
+            opReportForm = UploadOperationReportForm(
+                request.POST, request.FILES)
             if opReportForm.is_valid():
                 opReportForm.save()
         elif 'appointment_submit' in request.POST:
-            appReportForm = FileAppointmentReportForm(request.POST, request.FILES)
+            appReportForm = FileAppointmentReportForm(
+                request.POST, request.FILES)
             if appReportForm.is_valid():
                 appReportForm.save()
     context = {'appointment_form': appReportForm,
@@ -100,7 +110,7 @@ def admissionRegView(request):
     elif request.method == 'GET':
         admissionRegForm = AdmissionForm()
     elif request.method == 'POST':
-        admissionRegForm = Admission(request.POST, request.FILES)
+        admissionRegForm = AdmissionForm(request.POST, request.FILES)
         if admissionRegForm.is_valid():
             admissionRegForm.save()
     return render(request, 'admissionReg.html', {'form': admissionRegForm})
@@ -127,7 +137,8 @@ def scheduleOperationView(request):
     elif request.method == 'GET':
         scheduleOperationForm = ScheduleOperationForm()
     elif request.method == 'POST':
-        scheduleOperationForm = ScheduleOperationForm(request.POST, request.FILES)
+        scheduleOperationForm = ScheduleOperationForm(
+            request.POST, request.FILES)
         if scheduleOperationForm.is_valid():
             scheduleOperationForm.save()
     return render(request, 'scheduleOperation.html', {'form': scheduleOperationForm})
@@ -172,17 +183,31 @@ def patientInfoView(request):
             data = form.cleaned_data
             patient = Patient.objects.get(pk=data['patientID'].pk)
             context['patient'] = patient
+            context['appointments'] = Appointment.objects.filter(patientID=patient.pk)
+            context['tests'] = Test.objects.filter(patientID=patient.pk)
+            context['operations'] = Operation.objects.filter(patientID=patient.pk)
         else:
-            messages.error("Invalid input")
+            messages.error(request, "Invalid input")
         return render(request, 'patientInfo.html', context)
+
 
 @login_required
 def patientListView(request):
-    return render(request, "access-denied")
+    if request.user.profile.role != 'd':
+        return redirect('access-denied')
+    elif request.method == 'GET':
+        docObj = request.user.profile.doctor
+        operations = docObj.doctors.all()
+        apps = docObj.doctor_assigned.all()
+        context = {'operations': operations, 'appointments' : apps}
+        return render(request, 'patientList.html', context)
+        
+
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 def access_denied(request):
     return render(request, 'access_denied.html')

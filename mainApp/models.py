@@ -36,6 +36,9 @@ class Room(models.Model):
     type = models.CharField(max_length=10, choices=roomType, default='w')
     available = models.BooleanField(default=False)
 
+    def __str__(self):
+        return "Room " + str(self.pk)
+
 
 class Doctor(models.Model):
     username = models.OneToOneField(Profile, on_delete=models.CASCADE)
@@ -57,7 +60,7 @@ class Appointment(models.Model):
     doctorID = models.ForeignKey(
         Doctor, related_name='doctor_assigned', on_delete=models.CASCADE)
     startTime = models.DateTimeField()
-    #endTime = models.DateTimeField(null=True, blank=True)
+    # endTime = models.DateTimeField(null=True, blank=True)
     prescription = models.TextField(null=True, blank=True)
     priorityChoices = [
         (0, "Low"),
@@ -67,13 +70,14 @@ class Appointment(models.Model):
     priority = models.IntegerField(choices=priorityChoices, default=0)
     appReport = models.FileField(null=True, blank=True)
     reportGenerationTime = models.DateTimeField(null=True, blank=True)
+
     def __str__(self):
         return str(self.pk) + " - " + str(self.patientID) + " - " + self.startTime.strftime("%d/%m/%Y, %H:%M:%S")
 
 
 class Admission(models.Model):
-    def _validate_room(self, value: Room):
-        if value.type != 'w':
+    def _validate_room(value):
+        if Room.objects.get(pk=value).type != 'w':
             raise ValidationError('This room is not an admission ward')
     patientID = models.ForeignKey(
         Patient, on_delete=models.CASCADE, related_name='patient_admitted')
@@ -84,8 +88,8 @@ class Admission(models.Model):
 
     def clean(self):
         if Admission.objects.filter(endTime__isnull=True).exists():
-            raise ValidationError('Cannot admit the same patient again before discharging them')
-
+            raise ValidationError(
+                'Cannot admit the same patient again before discharging them')
 
 
 class Test(models.Model):
@@ -95,11 +99,13 @@ class Test(models.Model):
     scheduledTime = models.DateTimeField()
     testReport = models.FileField(null=True, blank=True)
     reportGenerationTime = models.DateTimeField(null=True, blank=True)
+    def __str__(self):
+        return "Test ID - " + str(self.pk)
 
 
 class Operation(models.Model):
-    def _validate_room(self, value: Room):
-        if value.type != 'o':
+    def _validate_room(value: Room):
+        if Room.objects.get(pk=value).type != 'o':
             raise ValidationError('This room is not suitable for operations.')
     opName = models.CharField(max_length=50)
     patientID = models.ForeignKey(
