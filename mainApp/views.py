@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib import messages
-
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
 from .forms import *
 from .models import *
 from datetime import datetime
@@ -201,8 +203,18 @@ def patientListView(request):
         apps = docObj.doctor_assigned.all()
         context = {'operations': operations, 'appointments' : apps}
         return render(request, 'patientList.html', context)
-        
 
+@login_required
+def fileDownloadView(request):
+    path = request.POST.get('fileName')
+    print(path)
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/octet-stream")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 def logout_view(request):
     logout(request)

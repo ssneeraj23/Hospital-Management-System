@@ -84,7 +84,7 @@ class MakeAppointmentForm(forms.ModelForm):
 
 class FileAppointmentReportForm(forms.Form):
     appointmentID = forms.ModelChoiceField(
-        queryset=Appointment.objects.filter(appReport__isnull=True), required=True)
+        queryset=Appointment.objects.filter(appReport=""), required=True)
     appReport = forms.FileField(allow_empty_file=False, required=True)
 
     def __init__(self, *args, **kwargs):
@@ -94,17 +94,11 @@ class FileAppointmentReportForm(forms.Form):
         self.fields['appointmentID'].widget.attrs['placeholder'] = 'Appointment ID'
         self.fields['appReport'].widget.attrs['placeholder'] = 'Appointment Report'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if cleaned_data['appointmentID'].appReport is not None:
-            raise ValidationError(
-                'This appointment already has an associated report')
-        return cleaned_data
-
     def save(self):
         data = self.cleaned_data
         appObj = data['appointmentID']
         appObj.appReport = data['appReport']
+        appObj.reportGenerationTime = datetime.now()
         appObj.save()
 
 # doctor's form
@@ -159,6 +153,7 @@ class UploadTestReportForm(forms.Form):
         data = self.cleaned_data
         testObj = data['testID']
         testObj.testReport = data['testReport']
+        testObj.reportGenerationTime = datetime.now()
         testObj.save()
 
 
@@ -180,7 +175,7 @@ class ScheduleOperationForm(forms.ModelForm):
 
 class UploadOperationReportForm(forms.Form):
     operationID = forms.ModelChoiceField(Operation.objects.filter(
-        operationReport__isnull=True), required=True)
+        operationReport=""), required=True)
     opReport = forms.FileField(allow_empty_file=False, required=True)
 
     def __init__(self, *args, **kwargs):
@@ -192,6 +187,7 @@ class UploadOperationReportForm(forms.Form):
         data = self.cleaned_data
         operationObj = data['operationID']
         operationObj.operationReport = data['opReport']
+        operationObj.reportGenerationTime = datetime.now()
         operationObj.save()
 
 

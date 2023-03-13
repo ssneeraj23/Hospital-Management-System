@@ -37,7 +37,11 @@ class Room(models.Model):
     available = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Room " + str(self.pk)
+        if self.type == 'w':
+            return "Room " + str(self.pk) + ' - Ward'
+        elif self.type == 'o':
+            return "Room " + str(self.pk) + ' - Operation Theatre'
+        
 
 
 class Doctor(models.Model):
@@ -87,7 +91,7 @@ class Admission(models.Model):
     endTime = models.DateTimeField(null=True, blank=True)
 
     def clean(self):
-        if Admission.objects.filter(endTime__isnull=True).exists():
+        if Admission.objects.filter(patientID=self.patientID).filter(endTime__isnull=True).exists():
             raise ValidationError(
                 'Cannot admit the same patient again before discharging them')
 

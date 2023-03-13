@@ -24,12 +24,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for appt in appointments %}
                             <tr>
-                                {% for appt in appointments %}
                                 <td>{{ appt.patientID }}</td>
                                 <td>{{ appt.startTime }}</td>
-                                {% endfor %}
                             </tr>
+                            {% endfor %}
                         </tbody>
                 </table>
             </div>
@@ -55,13 +55,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for op in operations %}
                             <tr>
-                                {% for op in operations %}
                                 <td>{{ op.patientID }}</td>
                                 <td>{{ op.startTime }}</td>
                                 <td>{{ op.endTime }}</td>
-                                {% endfor %}
                             </tr>
+                            {% endfor %}
                         </tbody>
                 </table>
             </div>

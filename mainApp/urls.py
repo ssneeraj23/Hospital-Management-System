@@ -20,6 +20,7 @@ urlpatterns = [
     path('scheduleOperation', views.scheduleOperationView, name='scheduleOperation'),
     path('makeAppointment', views.makeAppointmentView, name='makeAppointment'),
     path('discharge', views.dischargeView, name='discharge'),
+    path('filedownload', views.fileDownloadView, name='filedownload'),
     path('logout', views.logout_view, name='logout'),
-    path('access-denied', views.access_denied, name='access-denied'),  # TODO
+    path('access-denied', views.access_denied, name='access-denied')
 ]

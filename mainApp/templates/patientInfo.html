@@ -38,22 +38,26 @@
                                 <th>Doctor ID</th>
                                 <th>Start Time</th>
                                 <th>Priority</th>
-                                <th>Prescription</th>
                                 <th>Report</th>
                                 <th>Report Time</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for appt in appointments %}
                             <tr>
-                                {% for appt in appointments %}
                                 <td>{{ appt.doctorID }}</td>
                                 <td>{{ appt.startTime }}</td>
                                 <td>{{ appt.priority }}</td>
-                                <td>{{ appt.prescription }}</td>
-                                <td>{{ appt.appReport }}</td>
+                                <td>
+                                {% if appt.appReport != "" %}
+                                    <form action={% url 'filedownload' %} method='POST'>{% csrf_token %}<input type='hidden' name="fileName" value="{{ appt.appReport }}"/><input type='submit' value='Download' download/></form>
+                                {% endif %}
+                                </td>
+
                                 <td>{{ appt.reportGenerationTime }}</td>
-                                {% endfor %}
                             </tr>
+                            {% endfor %}
+
                         </tbody>
                 </table>
             </div>
@@ -86,10 +90,14 @@
                             <tr>
                                 <td>{{ test.testName }}</td>
                                 <td>{{ test.scheduledTime }}</td>
-                                <td>{{ test.testReport }}</td>
+                                <td>
+                                    {% if test.testReport != "" %}
+                                    <form action="{% url 'filedownload' %}" method='POST'>{% csrf_token %}<input type='hidden' name="fileName" value="{{ test.testReport }}"/><input type='submit' value='Download' download/></form>
+                                    {% endif %}
+                                </td>
                                 <td>{{ test.reportGenerationTime }}</td>
-                                {% endfor %}
                             </tr>
+                            {% endfor %}
                         </tbody>
                 </table>
             </div>
@@ -121,16 +129,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for op in operations %}
                             <tr>
-                                {% for op in operations %}
                                 <td>{{ op.doctorID }}</td>
                                 <td>{{ op.opName }}</td>
                                 <td>{{ op.startTime }}</td>
                                 <td>{{ op.endTime }}</td>
-                                <td>{{ test.operationReport }}</td>
-                                <td>{{ test.reportGenerationTime }}</td>
-                                {% endfor %}
+                                <td>
+                                    {% if op.operationReport != "" %}
+                                    <form action="{% url 'filedownload' %}" method='POST'>{% csrf_token %}<input type='hidden' name="fileName" value="{{ op.operationReport }}"/><input type='submit' value='Download' download/></form>
+                                    {% endif %}
+                                </td>
+                                <td>{{ op.reportGenerationTime }}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                 </table>
             </div>

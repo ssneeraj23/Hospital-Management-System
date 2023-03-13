@@ -89,13 +89,14 @@
               </tr>
             </thead>
             <tbody>
+              {% for appt in appointments %}
               <tr>
-                {% for appt in appointments %}
                 <td>{{ appt.patientID }}</td>
                 <td>{{ appt.startTime }}</td>
                 <td>{{ appt.endTime }}</td>
-                {% endfor %}
               </tr>
+              {% endfor %}
+
             </tbody>
         </table>
       </div>
